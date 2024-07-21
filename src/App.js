@@ -1,31 +1,21 @@
-import { useState } from "react";
-import AnimalShow from "./AnimalShow";
-import  './App.css';
-
-function getRandomAnimal() {
-    const animals = ['bird', 'cat', 'dog', 'cow' ,'gator' ,'horse' ];
-    return animals[Math.floor(Math.random() * animals.length)];
-}
-
-// console.log(getRandomAnimal());
+import searchImages from './api';
+import SearchBaer from './Components/SearchBaer';
+import ImgList from './Components/ImgList';
+import { useState } from 'react';
 
 function App() {
-    const [animals, setanimals] = useState([]);
+    const [images, setImages] = useState([]);
 
-    const handleClick = () => {
-        setanimals([...animals , getRandomAnimal()])
+
+    const handelSubmit= async (term)=>{
+   const result =  await searchImages(term);
+   setImages(result);
+
     };
-     
-    const renderedAnemail = animals.map((animal , index)=>{
-        return <AnimalShow  type={animal}   key={index} />
-    })
-    return (
-        <div className="app">
-            <button className="" onClick={handleClick}>Add Animal</button>
-            <p className=""> and then click on heart </p>
-            <div className="amimal-list"> {renderedAnemail} </div>
-        </div>
-    );
+    return <div className="">
+    <SearchBaer onSubmit={handelSubmit} />
+    <ImgList images={images} />
+    </div>;
 }
 
 export default App;
